@@ -8,10 +8,9 @@ import datetime
 import numpy as np
 
 # Set up Streamlit app
-st.set_page_config(page_title="Stock Market Data analysis", layout="wide")
-st.title("📈 Stock Market Data analysis")
-st.markdown("### A user-friendly dashboard to analyze sector performance, risk, and stock trends in India")
-
+st.set_page_config(page_title="Stock Market Data Analysis", layout="wide")
+st.title("📈 Stock Market Data Analysis")
+st.markdown("### A user-friendly dashboard to analyze U.S. stock performance, risk, and trends")
 
 # Fetch live stock data from Yahoo Finance
 @st.cache_data
@@ -24,7 +23,6 @@ def fetch_stock_list():
         st.error(f"Error fetching stock data: {e}")
         return pd.DataFrame()
 
-
 stock_list = fetch_stock_list()
 if stock_list.empty:
     st.error("⚠️ No stock data available.")
@@ -33,7 +31,6 @@ if stock_list.empty:
 # Sidebar for user selection
 time_range = st.sidebar.selectbox("Select Time Range", ["1y", "5y", "10y", "max"])
 selected_stock = st.sidebar.selectbox("Choose a Stock", stock_list["Ticker"].unique())
-
 
 # Fetch historical data for selected stock
 @st.cache_data
@@ -46,7 +43,6 @@ def get_stock_data(ticker, period):
     except Exception as e:
         st.error(f"Error fetching stock data: {e}")
         return pd.DataFrame()
-
 
 stock_data = get_stock_data(selected_stock, time_range)
 if stock_data.empty:
@@ -89,7 +85,6 @@ if not stock_data.empty:
 # AI-Based Stock Recommendations
 st.subheader("📊 AI-Based Stock Recommendation")
 
-
 def stock_recommendation(stock_data):
     try:
         if stock_data.empty:
@@ -121,7 +116,6 @@ def stock_recommendation(stock_data):
             return "🔄 Hold - Weak or No Strong Signal"
     except Exception as e:
         return f"Error in recommendation: {e}"
-
 
 if not stock_data.empty:
     recommendation = stock_recommendation(stock_data)
